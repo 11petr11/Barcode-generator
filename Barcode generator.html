@@ -1,0 +1,97 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  <script type="text/javascript" src="./js/jquery-latest.min.js"></script>
+ <title>Barcode generator</title>
+ <link type="text/css" rel="stylesheet" href="./css/style.css">
+ <link type="text/css" media="print" rel="stylesheet" href="./css/styleprint.css">
+</head>
+<body>
+  <canvas id="myCanvas" width="700" height="80"></canvas>
+  <div class="wrappopisek">
+    <label class="labelCanvas NEFOKUS">jgjgjg</label><br>
+    <label class="labelRealTime NEFOKUS"></label><br>
+    <input type="text" autofocus="" style="display: none">
+  </div>
+  <img>
+  <script type="text/javascript" src="./js/Barcode128.js"></script>
+  <script type="text/javascript" src="./js/SlamKO.js"></script>
+  <script>
+    $(function(){
+      codeOne = new Code128("Zpomal!");
+      codeOne.writeToCanvas2($("#myCanvas")[0], 2, 14, 400, 80);
+    });
+
+function fnHL(){
+  var slam = new SlamKO(s);
+  codeOne = new Code128(slam.value);
+  $(".labelCanvas").html(slam.value);
+  codeOne.writeToCanvas2($("#myCanvas")[0], 2, 14, 400, 80);
+  console.log(s);
+  s = "";
+  $(".labelRealTime").html(s);
+}
+
+    var s = "";
+    $(document).keypress(function(e) {
+       var code = e.which; // recommended to use e.which, it's normalized across browsers//https://stackoverflow.com/questions/3462995/jquery-keydown-keypress-keyup-enterkey-detection
+       //if(code==13)e.preventDefault();
+       console.log("keypress",code);
+       if(code==13){
+         console.log(this);
+         fnHL();
+       }else if (e.which !== 0) {
+          s = s + String.fromCharCode(e.which);//https://stackoverflow.com/questions/3977642/how-to-know-if-keyup-is-a-character-key-jquery
+          $(".labelRealTime").html(s);
+      }
+    });
+    $(document).keydown(function(e){
+        console.log(e.which);
+        if(e.ctrlKey && e.which == 67){
+            console.log("ctrl+C");
+            $(".labelCanvas")[0].select();
+            document.execCommand("Copy");
+        };
+        if(e.ctrlKey && e.which == 86){
+            console.log("ctrl+V");
+
+            console.log($("input").css("display","block").focus().val(""));
+            var docTime = setTimeout(function () {
+              s = $("input").css("display","none").val();
+              fnHL();
+            }, 10);
+        };
+        if(e.altKey && e.which == 83){
+          console.log("ctrl+V");
+          var image = $("#myCanvas")[0].toDataURL("image/png");//.replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+          $("img").attr("src",image);
+          //window.location.href=image; // it will save locally
+        };
+        if(e.which == 27){//ESC
+          s="";$(".labelRealTime").html(s);
+        };
+        if(e.which == 8){//Backspace
+          s = s.slice(0,s.length-1);$(".labelRealTime").html(s);
+        };
+    });
+
+
+    /*$("input").keyup( function(e) { //https://stackoverflow.com/questions/3462995/jquery-keydown-keypress-keyup-enterkey-detection
+      var code = e.which; // recommended to use e.which, it's normalized across browsers
+      if(code==13)e.preventDefault();
+      if(code==32||code==13||code==188||code==186){
+        var slam = new SlamKO(this.value);
+        this.value = "";
+        codeOne = new Code128(slam.value);
+        $(".labelCanvas").html(slam.value);
+        codeOne.writeToCanvas2($("#myCanvas")[0], 2, 14, 400, 80);
+      }
+    });
+    $('html').click(function(e) {
+      if(!$(e.target).hasClass('NEFOKUS')){
+        $("input")[0].focus();
+      }
+      console.log("click");
+    });*/
+  </script>
+
+
+</body></html>

@@ -1,0 +1,13 @@
+.labelCanvas, .labelRealTime{
+  width: 200px;
+}
+.labelRealTime{
+  font-size:13px;
+  display: none;
+}
+.labelCanvas{
+  font-size:20px;  
+}
+.wrappopisek{
+      margin-left: 12px;
+}

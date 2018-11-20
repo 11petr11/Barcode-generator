@@ -1,0 +1,18 @@
+/*canvas{
+  border: 1px solid red;
+}/**/
+
+/**{
+  border: 1px solid red;
+}/**/
+
+.labelCanvas, .labelRealTime{
+  width: 200px;
+}
+.labelRealTime{
+  font-size:13px;
+}
+
+.wrappopisek{
+      margin-left: 12px;
+}
